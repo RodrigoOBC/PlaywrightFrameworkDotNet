@@ -7,10 +7,9 @@ namespace PlaywrightTests.Pages
     {
         private readonly IPage _page;
         private readonly string _url;
-        private readonly string _titlePage ;
-        private readonly ILocator _SearchField ;
+        private readonly string _titlePage;
+        private readonly ILocator _SearchField;
         private readonly ILocator _SearchButton;
-        private readonly string[] _ProductsTarget;
 
 
 
@@ -21,8 +20,7 @@ namespace PlaywrightTests.Pages
             _titlePage = "My Shop";
             _SearchField = _page.Locator("[placeholder=\"Search\"]");
             _SearchButton = _page.Locator("[name=\"submit_search\"]");
-            _ProductsTarget = new string[] { "Faded Short Sleeve T-shirts", "Printed Dress"};
-            
+
         }
 
         public async Task NavigateToAsync()
@@ -38,6 +36,20 @@ namespace PlaywrightTests.Pages
         public async Task ClickSearchButton()
         {
             await _SearchButton.ClickAsync();
+        }
+
+        public ILocator GetProductsTarget(string product)
+        {
+            ILocator ProductsTargetElement = _page.GetByRole(AriaRole.Link, new() { Name = product });
+            return ProductsTargetElement;
+        }
+
+        public async Task<ILocator> SearchProduct(string product)
+        {
+            await _SearchField.FillAsync(product);
+            await _SearchButton.ClickAsync();
+            ILocator productLink = GetProductsTarget(product);
+            return productLink;
         }
     }
 }
