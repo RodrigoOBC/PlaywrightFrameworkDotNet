@@ -1,5 +1,5 @@
 # Usa a última versão LTS do .NET SDK
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS base
+FROM mcr.microsoft.com/playwright/dotnet:v1.50.0-noble
 
 # Instala dependências para Playwright e interface gráfica
 RUN apt-get update && apt-get install -y \
@@ -13,7 +13,6 @@ RUN apt-get update && apt-get install -y \
     libxdamage1 \
     libxrandr2 \
     libgbm1 \
-    libasound2 \
     libpangocairo-1.0-0 \
     libpango-1.0-0 \
     libgdk-pixbuf2.0-0 \
