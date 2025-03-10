@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  dotnet-playwright:
+    container_name: playwrightDotNetDevContainer
+    build: 
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    privileged: true
+    environment:
+      - DISPLAY=${DISPLAY}
+    volumes:
+      - ..:/workspace
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw # Compartilha o X11 para interface gráfica
+    stdin_open: true
+    tty: true
