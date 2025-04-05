@@ -7,7 +7,7 @@ using PlaywrightTests.Pages;
 namespace PlaywrightTests;
 
 [TestClass]
-public class ExampleTest : PageTest
+public class HomePageTest : PageTest
 {
     [DataTestMethod]
     [DataRow("Faded Short Sleeve T-shirts")]
