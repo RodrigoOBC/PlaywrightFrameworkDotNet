@@ -1,5 +1,5 @@
 # Usa a última versão LTS do .NET SDK
-FROM mcr.microsoft.com/playwright/dotnet:v1.50.0-noble
+FROM mcr.microsoft.com/playwright/dotnet:v1.51.0-jammy
 
 # Instala dependências para Playwright e interface gráfica
 RUN apt-get update && apt-get install -y \

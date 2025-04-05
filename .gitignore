@@ -435,4 +435,7 @@ obj/
 .history
 .ionide
 
+#test results
+**/TestResults
+**/TestResults/*
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,linux,visualstudiocode,csharp
