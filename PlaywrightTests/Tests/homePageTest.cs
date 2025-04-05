@@ -14,7 +14,7 @@ public class ExampleTest : PageTest
     [DataRow("Blouse")]
     [DataRow("Printed Dress")]
     [Description("Search for different products and verify results.")]
-    public async Task HasTitle(string product)
+    public async Task Search_WithValidProducts_Sucessfull(string product)
     {
         var homePage = new HomePage(Page);
         await homePage.NavigateToAsync();
