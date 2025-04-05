@@ -3,23 +3,43 @@ using System.Threading.Tasks;
 
 namespace PlaywrightTests.Pages
 {
-    public class HomePage
+    public class FormPage
     {
         private readonly IPage _page;
         private readonly string _url;
         private readonly string _titlePage;
         private readonly ILocator _SearchField;
         private readonly ILocator _SearchButton;
+        private readonly ILocator _NaneField;
+        private readonly ILocator _LastNameField;
+        private readonly ILocator _EmailField;
+        private readonly ILocator _mobileField;
+        private readonly ILocator _dateOfBirthField;
+        private readonly ILocator _subjectField;
+        private readonly ILocator _pictureField;
+        private readonly ILocator _currentAddressField;
+        private readonly ILocator _stateField;
+        private readonly ILocator _cityField;
+        private readonly ILocator _submitButton;
 
 
 
-        public HomePage(IPage page)
+        public FormPage(IPage page)
         {
             _page = page;
-            _url = "http://www.automationpractice.pl/index.php";
-            _titlePage = "My Shop";
-            _SearchField = _page.Locator("[placeholder=\"Search\"]");
-            _SearchButton = _page.Locator("[name=\"submit_search\"]");
+            _url = "https://demoqa.com/automation-practice-form";
+            _titlePage = "Practice Form";
+            _NaneField = _page.GetByPlaceholder("First Name");
+            _LastNameField = _page.GetByPlaceholder("Last Name");
+            _EmailField = _page.GetByPlaceholder("name@example.com");
+            _mobileField = _page.GetByPlaceholder("Mobile Number");
+            _dateOfBirthField = _page.Locator("[id=\"dateOfBirthInput\"]");
+            _subjectField = _page.Locator("[placeholder=\"Search\"]");
+            _pictureField = _page.Locator("[placeholder=\"Search\"]");
+            _currentAddressField = _page.GetByPlaceholder("Current Address");
+            _stateField = _page.Locator("[placeholder=\"Search\"]");
+            _cityField = _page.Locator("[placeholder=\"Search\"]");
+            _submitButton = _page.GetByRole(AriaRole.Button, new() { Name = "Submit" });
 
         }
 
@@ -28,28 +48,45 @@ namespace PlaywrightTests.Pages
             await _page.GotoAsync(_url);
         }
 
-        public async Task ClickSearchBox()
+        public async Task FillFirstNameAsync(string firstName)
         {
-            await _SearchField.ClickAsync();
+            await _NaneField.FillAsync(firstName);
         }
 
-        public async Task ClickSearchButton()
+        public async Task FillLastNameAsync(string lastName)
         {
-            await _SearchButton.ClickAsync();
+            await _LastNameField.FillAsync(lastName);
         }
 
-        public ILocator GetProductsTarget(string product)
+        public async Task FillEmailAsync(string email)
         {
-            ILocator ProductsTargetElement = _page.GetByRole(AriaRole.Link, new() { Name = product });
-            return ProductsTargetElement;
+            await _EmailField.FillAsync(email);
         }
 
-        public async Task<ILocator> SearchProduct(string product)
+        public async Task FillMobileAsync(string mobile)
         {
-            await _SearchField.FillAsync(product);
-            await _SearchButton.ClickAsync();
-            ILocator productLink = GetProductsTarget(product);
-            return productLink;
+            await _mobileField.FillAsync(mobile);
         }
+
+        public async Task FillDateOfBirthAsync(string dateOfBirth)
+        {
+            await _dateOfBirthField.FillAsync(dateOfBirth);
+        }
+
+        public async Task FillCurrentAddressAsync(string currentAddress)
+        {
+            await _currentAddressField.FillAsync(currentAddress);
+        }
+
+        public async Task ClickSubmitButton()
+        {
+            await _submitButton.ClickAsync();
+        }
+
+        async Task FilledAll(string subject)
+        {
+            await _subjectField.FillAsync(subject);
+        }
+
     }
 }
