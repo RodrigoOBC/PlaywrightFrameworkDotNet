@@ -111,20 +111,6 @@ namespace PlaywrightTests.Pages
         {
             await _pictureField.SetInputFilesAsync(filePath);
         }
-
-        // public async Task CompleteForm(string firstName, string lastName, string email, string mobile, string dateOfBirth, string currentAddress, string subject, string state, string city, string filePath)
-        // {
-        //     await FillFirstNameAsync(firstName);
-        //     await FillLastNameAsync(lastName);
-        //     await FillEmailAsync(email);
-        //     await FillMobileAsync(mobile);
-        //     await FillDateOfBirthAsync(dateOfBirth);
-        //     await FillCurrentAddressAsync(currentAddress);
-        //     await FilledAll(subject);
-        //     await SelectState(state);
-        //     await SelectCity(city);
-        //     await UploadPicture(filePath);
-        // }
         public async Task CompleteForm(string firstName, string lastName, string email,string mobile,string dateOfBirth, string gender, string currentAddress,string subject, string state, string city)
         {
             await FillFirstNameAsync(firstName);
