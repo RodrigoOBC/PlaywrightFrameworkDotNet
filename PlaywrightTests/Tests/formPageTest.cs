@@ -10,11 +10,13 @@ namespace PlaywrightTests;
 public class FormPageTest : PageTest
 {
     [DataTestMethod]
+    [DataRow("joão","ninguem","joao@teste.com","2020555999","28 Dec 1996","Male","street new","Computer Science","Uttar Pradesh","Agra")]
     [Description("Search for different products and verify results.")]
-    public async Task Search_WithValidProducts_Sucessfull()
+    public async Task Submit_WithValidDatas_Sucessfull(string firstName, string lastName, string email, string mobile,string date,string gender, string currentAddress, string subject,string state, string city)
     {
         var formPage = new FormPage(Page);
         await formPage.NavigateToAsync();
+        await formPage.CompleteForm(firstName,lastName,email,mobile,date,gender,currentAddress,subject,state,city);
         await formPage.ClickSubmitButton();
     }
 }

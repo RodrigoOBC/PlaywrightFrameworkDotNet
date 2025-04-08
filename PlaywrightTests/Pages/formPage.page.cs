@@ -34,11 +34,11 @@ namespace PlaywrightTests.Pages
             _EmailField = _page.GetByPlaceholder("name@example.com");
             _mobileField = _page.GetByPlaceholder("Mobile Number");
             _dateOfBirthField = _page.Locator("[id=\"dateOfBirthInput\"]");
-            _subjectField = _page.Locator("[placeholder=\"Search\"]");
+            _subjectField = _page.Locator("[id=\"subjectsInput\"]");
             _pictureField = _page.Locator("[placeholder=\"Search\"]");
             _currentAddressField = _page.GetByPlaceholder("Current Address");
-            _stateField = _page.Locator("[placeholder=\"Search\"]");
-            _cityField = _page.Locator("[placeholder=\"Search\"]");
+            _stateField = _page.GetByText("Select State");
+            _cityField = _page.GetByText("Select City");
             _submitButton = _page.GetByRole(AriaRole.Button, new() { Name = "Submit" });
 
         }
@@ -62,6 +62,12 @@ namespace PlaywrightTests.Pages
         {
             await _EmailField.FillAsync(email);
         }
+        public async Task SelectGender(string gender)
+        {
+            var genderRadioButtonawait = _page.GetByText(gender, new() { Exact = true });
+            await genderRadioButtonawait.ClickAsync();
+            
+        }
 
         public async Task FillMobileAsync(string mobile)
         {
@@ -83,9 +89,55 @@ namespace PlaywrightTests.Pages
             await _submitButton.ClickAsync();
         }
 
-        async Task FilledAll(string subject)
-        {
+        async Task FilledSubject(string subject)
+        {   
+            await _subjectField.ClickAsync();
             await _subjectField.FillAsync(subject);
+            await _page.PauseAsync();
+            await _page.GetByText(subject, new() { Exact = true }).Nth(1).ClickAsync();
+        }
+
+        public async Task SelectState(string state)
+        {
+            await _stateField.ClickAsync();
+            await _page.GetByText(state).ClickAsync();
+        }
+        public async Task SelectCity(string city)
+        {
+            await _cityField.ClickAsync();
+            await _page.GetByText(city,new() { Exact = true }).ClickAsync();
+        }
+        public async Task UploadPicture(string filePath)
+        {
+            await _pictureField.SetInputFilesAsync(filePath);
+        }
+
+        // public async Task CompleteForm(string firstName, string lastName, string email, string mobile, string dateOfBirth, string currentAddress, string subject, string state, string city, string filePath)
+        // {
+        //     await FillFirstNameAsync(firstName);
+        //     await FillLastNameAsync(lastName);
+        //     await FillEmailAsync(email);
+        //     await FillMobileAsync(mobile);
+        //     await FillDateOfBirthAsync(dateOfBirth);
+        //     await FillCurrentAddressAsync(currentAddress);
+        //     await FilledAll(subject);
+        //     await SelectState(state);
+        //     await SelectCity(city);
+        //     await UploadPicture(filePath);
+        // }
+        public async Task CompleteForm(string firstName, string lastName, string email,string mobile,string dateOfBirth, string gender, string currentAddress,string subject, string state, string city)
+        {
+            await FillFirstNameAsync(firstName);
+            await FillLastNameAsync(lastName);
+            await FillEmailAsync(email);
+            await FillMobileAsync(mobile);
+            await FillDateOfBirthAsync(dateOfBirth);
+            await SelectGender(gender);
+            await FillCurrentAddressAsync(currentAddress);
+            await FilledSubject(subject);
+            await SelectState(state);
+            await SelectCity(city);
+            // await UploadPicture(filePath);
         }
 
     }
