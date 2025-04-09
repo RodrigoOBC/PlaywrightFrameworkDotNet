@@ -35,7 +35,7 @@ namespace PlaywrightTests.Pages
             _mobileField = _page.GetByPlaceholder("Mobile Number");
             _dateOfBirthField = _page.Locator("[id=\"dateOfBirthInput\"]");
             _subjectField = _page.Locator("[id=\"subjectsInput\"]");
-            _pictureField = _page.Locator("[placeholder=\"Search\"]");
+            _pictureField = _page.Locator("[id=\"uploadPicture\"]");
             _currentAddressField = _page.GetByPlaceholder("Current Address");
             _stateField = _page.GetByText("Select State");
             _cityField = _page.GetByText("Select City");
@@ -66,7 +66,7 @@ namespace PlaywrightTests.Pages
         {
             var genderRadioButtonawait = _page.GetByText(gender, new() { Exact = true });
             await genderRadioButtonawait.ClickAsync();
-            
+
         }
 
         public async Task FillMobileAsync(string mobile)
@@ -90,10 +90,9 @@ namespace PlaywrightTests.Pages
         }
 
         async Task FilledSubject(string subject)
-        {   
+        {
             await _subjectField.ClickAsync();
             await _subjectField.FillAsync(subject);
-            await _page.PauseAsync();
             await _page.GetByText(subject, new() { Exact = true }).Nth(1).ClickAsync();
         }
 
@@ -105,13 +104,17 @@ namespace PlaywrightTests.Pages
         public async Task SelectCity(string city)
         {
             await _cityField.ClickAsync();
-            await _page.GetByText(city,new() { Exact = true }).ClickAsync();
+            await _page.GetByText(city, new() { Exact = true }).ClickAsync();
         }
         public async Task UploadPicture(string filePath)
         {
-            await _pictureField.SetInputFilesAsync(filePath);
+            var fileChooser = await _page.RunAndWaitForFileChooserAsync(async () =>
+            {
+                await _pictureField.ClickAsync();
+            });
+            await fileChooser.SetFilesAsync(filePath);
         }
-        public async Task CompleteForm(string firstName, string lastName, string email,string mobile,string dateOfBirth, string gender, string currentAddress,string subject, string state, string city)
+        public async Task CompleteForm(string firstName, string lastName, string email, string mobile, string dateOfBirth, string gender, string currentAddress, string subject, string state, string city, string filePath)
         {
             await FillFirstNameAsync(firstName);
             await FillLastNameAsync(lastName);
@@ -123,7 +126,7 @@ namespace PlaywrightTests.Pages
             await FilledSubject(subject);
             await SelectState(state);
             await SelectCity(city);
-            // await UploadPicture(filePath);
+            await UploadPicture(filePath);
         }
 
     }
