@@ -68,8 +68,11 @@ namespace PlaywrightTests.Pages
     }
     public async Task SelectGender(string gender)
     {
-      var genderRadioButtonawait = _page.GetByText(gender, new() { Exact = true });
-      await genderRadioButtonawait.ClickAsync();
+      if (gender != "")
+      {
+        var genderRadioButtonawait = _page.GetByText(gender, new() { Exact = true });
+        await genderRadioButtonawait.ClickAsync();
+      }
 
     }
 
@@ -179,5 +182,39 @@ namespace PlaywrightTests.Pages
 
     }
 
+    public async Task ValidateRequiredFieldsBehave(string firstName, string lastName, string mobile, string gender)
+    {
+      var borderColorExpected = "rgb(220, 53, 69)";
+      if (firstName == "")
+      {
+        var borderColor = await GetElementBorderColorAsync(_NaneField);
+        Assert.AreEqual(borderColorExpected, borderColor);
+
+      }
+      if (lastName == "")
+      {
+        var borderColor = await GetElementBorderColorAsync(_LastNameField);
+        Assert.AreEqual(borderColorExpected, borderColor);
+      }
+      if (mobile == "")
+      {
+        var borderColor = await GetElementBorderColorAsync(_mobileField);
+        Assert.AreEqual(borderColorExpected, borderColor);
+      }
+      if (gender == "")
+      {
+
+      }
+
+    }
+
+    public async Task<string> GetElementBorderColorAsync(ILocator element)
+    {
+      var borderColor = await element.EvaluateAsync<string>("el => getComputedStyle(el).borderColor");
+      return borderColor;
+    }
+
   }
+
+
 }
